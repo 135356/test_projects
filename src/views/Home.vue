@@ -20,7 +20,9 @@
                     <td>{{v}}</td>
                 </tr>
             </table>
+            <div v-if="url_list_error.msg" class="error">{{url_list_error.msg}}</div>
         </div>
+        <div v-if="url_list_error.msg" @click="hideErrF()" class="mask"></div>
     </div>
 </template>
 
@@ -30,12 +32,22 @@
         components: {},
         data() {
             return {
+                time_number:5,
                 url_list:'',
-                time_number:6,
+                url_list_error: {
+                    timeout:0,
+                    msg:''
+                },
             }
         },
         watch: {},
-        methods: {},
+        methods: {
+            hideErrF()
+            {
+                this.url_list_error.msg='';
+                this.url_list_error.timeout||clearTimeout(this.url_list_error.timeout);
+            }
+        },
         created() {},
         mounted() {
             setInterval(()=>{
@@ -44,6 +56,12 @@
                     this.$An_data.getUrlList().then(res => {
                         if(res){
                             this.url_list=res;
+                            this.$forceUpdate();
+                        }else{
+                            this.url_list_error.msg='没有请求到数据';
+                            this.url_list_error.timeout = setTimeout(()=>{
+                                this.url_list_error.msg='';
+                            }, 3000);
                             this.$forceUpdate();
                         }
                     });
@@ -101,6 +119,15 @@
                     width:25%;
                     border:solid 1px rgb(226,226,226);
                 }
+            }
+            .error{
+                position:absolute;
+                top:50%;left:50%;
+                transform: translate(-50%,-50%);
+                z-index: 999;
+                width:80%;
+                color:#fff;
+                background:rgba(42,42,42,0.9);
             }
         }
     }

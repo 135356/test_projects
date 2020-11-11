@@ -15,6 +15,7 @@ class data{
                 state['load_time']=Date.now();
                 if(res.data){
                     state['state']=1;
+                    state['msg']='成功';
                     r_data=res.data;
                 }else{
                     state['state']=-1;
@@ -29,6 +30,7 @@ class data{
                 state['msg']='请求失败';
                 this.addLocal_('github_url',state,28800);
                 console.error(error);
+                resolve('');
             });
         });
     }
