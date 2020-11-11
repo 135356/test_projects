@@ -1,12 +1,26 @@
 <template>
     <div class="home">
-        <div class="time_number">{{time_number}}</div>
-        <div @click="$An_link.to('/Historical')" class="historical">{{'历史记录页'|_}}</div>
-        <table>
-            <tr v-for="(v,i) in url_list">
-                <td>{{v}}</td>
-            </tr>
-        </table>
+        <HeadNav>
+            <div class="top">
+                <div class="time">
+                    <div class="msg">{{'倒计时刷新'|_}}</div>
+                    <div class="number">{{time_number}}</div>
+                </div>
+                <table class="button">
+                    <tr>
+                        <td class="active">{{'查看url'|_}}</td>
+                        <td @click="$An_link.to('/Historical')">{{'历史状态'|_}}</td>
+                    </tr>
+                </table>
+            </div>
+        </HeadNav>
+        <div class="content">
+            <table>
+                <tr v-for="(v,i) in url_list">
+                    <td>{{v}}</td>
+                </tr>
+            </table>
+        </div>
     </div>
 </template>
 
@@ -40,37 +54,52 @@
 </script>
 <style scoped lang="scss">
     .home{
-        position:relative;
-        width:90%;
-        margin:auto;
-        .time_number{
-            position:absolute;
-            top:50px;right:100px;
-            z-index: 2;
-            width:100px;
-            height:100px;
-            line-height:100px;
-            color:#fff;
-            border-radius:10px;
-            background:rgba(0,0,0,0.8);
+        .top{
+            position:relative;
+            font-size:14px;
+            .time{
+                position:absolute;
+                top:0;left:0;
+                width:100px;
+                height:20px;
+                padding-top:20px;
+                line-height:20px;
+                background:rgb(89,203,18);
+                .msg{
+                    color:#fff;
+                }
+                .number{
+                    width:100%;
+                    height:60px;
+                    line-height:60px;
+                    color:#fff;
+                    background:rgb(89,203,18);
+                }
+            }
+            .button{
+                position:absolute;
+                top:0;left:160px;
+                width:40%;
+                color:rgba(89,203,18,0.6);
+                tr{
+                    td.active{
+                        color:rgb(89,203,18);
+                        border-bottom:solid 2px rgb(89,203,18);
+                    }
+                }
+            }
         }
-        .historical{
-            position:absolute;
-            top:200px;right:100px;
-            z-index: 2;
-            height:40px;
-            line-height:40px;
-            padding:10px 20px;
-            color:#fff;
-            border-radius:10px;
-            background: linear-gradient(135deg, #FE6702 0%, #FF1307 100%);
-        }
-        table{
-            tr{
-                border-bottom:solid 3px #666;
+        .content{
+            position:relative;
+            width:100%;
+            height:800px;
+            font-size:12px;
+            margin:20px auto 0;
+            overflow-y:scroll;
+            table{
                 td{
-                    height:40px;
-                    text-align: left;
+                    width:25%;
+                    border:solid 1px rgb(226,226,226);
                 }
             }
         }

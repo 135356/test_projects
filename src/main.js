@@ -4,11 +4,11 @@ import router from './router'
 import store from './store'
 import An from '@/libs/js_vue/src'
 import An_ui from '@/libs/js_vue/ui'
-import Head from '@/components/Head'
+import HeadNav from '@/components/HeadNav'
 
 Vue.use(An);
 Vue.use(An_ui);
-Vue.component(Head);
+Vue.component('HeadNav',HeadNav);
 
 Vue.config.productionTip = false
 

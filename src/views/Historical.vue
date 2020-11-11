@@ -1,20 +1,41 @@
 <template>
     <div class="home">
-        <div @click="$An_link.to('/')" class="historical">{{'返回'|_}}</div>
-        <table>
-            <tr style="border:none;">
-                <th>{{'调用时间'|_}}</th>
-                <th>{{'加载时间'|_}}</th>
-                <th>{{'状态'|_}}</th>
-                <th>{{'消息提示'|_}}</th>
-            </tr>
-            <tr v-for="(v,i) in url_state">
-                <td>{{v.time}}</td>
-                <td>{{v.load_time}}</td>
-                <td>{{v.state}}</td>
-                <td>{{v.msg}}</td>
-            </tr>
-        </table>
+        <HeadNav>
+            <div class="top">
+                <table class="button">
+                    <tr>
+                        <td @click="$An_link.to('/')">{{'查看url'|_}}</td>
+                        <td class="active">{{'历史状态'|_}}</td>
+                    </tr>
+                </table>
+            </div>
+        </HeadNav>
+        <div class="content">
+            <div class="thead">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>{{'调用时间'|_}}</th>
+                        <th>{{'加载时间'|_}}</th>
+                        <th>{{'状态'|_}}</th>
+                        <th>{{'消息提示'|_}}</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="tbody">
+                <table>
+                    <tbody>
+                    <tr v-for="(v,i) in url_state">
+                        <td>{{v.time}}</td>
+                        <td>{{v.load_time}}</td>
+                        <td>{{v.state}}</td>
+                        <td>{{v.msg}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -32,41 +53,65 @@
         created() {},
         mounted() {
             this.url_state=this.$An_data.getLocal_('github_url');
-            let new_url_state=0;
-            setInterval(()=>{
-                new_url_state=this.$An_data.getLocal_('github_url');
-                if(new_url_state){
-                    document.body.scrollTop += 500;
-                    document.documentElement.scrollTop += 500;
-                    this.url_state=new_url_state;
-                    this.$forceUpdate();
-                }
-            },5000);
         }
     }
 </script>
 <style scoped lang="scss">
     .home{
-        position:relative;
-        width:90%;
-        margin:auto;
-        .historical{
-            position:absolute;
-            top:200px;right:100px;
-            z-index: 2;
-            height:40px;
-            line-height:40px;
-            padding:10px 20px;
-            color:#fff;
-            border-radius:10px;
-            background: linear-gradient(135deg, #FE6702 0%, #FF1307 100%);
+        .top{
+            position:relative;
+            font-size:14px;
+            .time{
+                position:absolute;
+                top:0;left:0;
+                width:100px;
+                height:20px;
+                padding-top:20px;
+                line-height:20px;
+                background:rgb(89,203,18);
+                .msg{
+                    color:#fff;
+                }
+                .number{
+                    width:100%;
+                    height:60px;
+                    line-height:60px;
+                    color:#fff;
+                    background:rgb(89,203,18);
+                }
+            }
+            .button{
+                position:absolute;
+                top:0;left:160px;
+                width:40%;
+                color:rgba(89,203,18,0.6);
+                tr{
+                    td.active{
+                        color:rgb(89,203,18);
+                        border-bottom:solid 2px rgb(89,203,18);
+                    }
+                }
+            }
         }
-        table{
-            tr{
-                border-bottom:solid 3px #666;
+        .content{
+            position:relative;
+            width:90%;
+            margin:auto;
+            .thead{
+                font-size:14px;
+                margin:20px auto;
+                border-bottom:solid 1px rgb(226,226,226);
                 td{
-                    height:40px;
-                    text-align: center;
+                    border:solid 1px rgb(226,226,226);
+                }
+            }
+            .tbody{
+                width:100%; height:600px;
+                font-size:12px;
+                overflow-y:scroll;
+                td{
+                    width:25%;
+                    border:solid 1px rgb(226,226,226);
                 }
             }
         }
